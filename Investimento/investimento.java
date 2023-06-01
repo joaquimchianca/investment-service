@@ -1,15 +1,12 @@
-import org.springframework.stereotype.Component;
+import java.math.BigDecimal;
 
-@Component
 public class Investimento {
     private double valorInvestido;
     
-    public double obterSaldo() {
+    public BigDecimal obterSaldo() {
       
 
-    public void devolverInvestimento() {
-       
-    }
+    public void devolverInvestimento() {}
     
    
 }
