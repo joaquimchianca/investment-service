@@ -7,9 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.LinkedList;
 
 @Data
 @Builder
@@ -17,15 +14,14 @@ import java.util.LinkedList;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tesouro_direto")
-public class TesouroDireto implements Investimento {
+public class InvestimentoTesouroDireto implements Investimento {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private BigDecimal saldo;
-    private Integer taxaDeJuros;
 
     public BigDecimal obterSaldo() {
         return this.getSaldo();
-    };
+    }
 
-    public void devolverInvestimento() {};
+    public void devolverInvestimento() {}
 }
