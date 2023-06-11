@@ -17,7 +17,10 @@ import lombok.NoArgsConstructor;
 public class InvestimentoTesouroDireto implements Investimento {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private long usuario_id;
     private BigDecimal saldo;
+    @ManyToOne
+    private TituloTesouroDireto titulo;
 
     public BigDecimal obterSaldo() {
         return this.getSaldo();
