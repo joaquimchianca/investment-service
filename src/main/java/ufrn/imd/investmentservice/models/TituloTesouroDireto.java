@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
-@Table(name="titulos_tesouro_direto")
+@Table(name="titulo_tesouro_direto")
 public class TituloTesouroDireto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

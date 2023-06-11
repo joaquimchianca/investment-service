@@ -13,13 +13,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tesouro_direto")
+@Table(name = "investimento_tesouro_direto")
 public class InvestimentoTesouroDireto implements Investimento {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long usuario_id;
+    private long usuarioId;
     private BigDecimal saldo;
     @ManyToOne
+    @JoinColumn(name = "titulo_id")
     private TituloTesouroDireto titulo;
 
     public BigDecimal obterSaldo() {

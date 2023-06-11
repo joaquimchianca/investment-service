@@ -27,7 +27,6 @@ public class TituloTesouroDiretoController {
     public ResponseEntity<TituloTesouroDireto> exibirTitulo(@PathVariable long id) {
         return ResponseEntity.of(tituloService.exibirTitulo(id));
     }
-
     @PostMapping("/titulos")
     @Transactional
     public ResponseEntity<TituloTesouroDireto> criarTitulo(@RequestBody TituloTesouroDireto input){
