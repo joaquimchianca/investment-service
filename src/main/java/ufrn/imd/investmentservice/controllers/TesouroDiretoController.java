@@ -39,16 +39,23 @@ public class TesouroDiretoController {
         return ResponseEntity.ok(investimentoService.investir(usuarioId, tituloId, valorInvestido.valorInvestido));
     };
     @GetMapping("/{usuarioId}/{tituloId}")
-    public ResponseEntity<InvestimentoTesouroDireto> info(
+    public ResponseEntity<InvestimentoTesouroDireto> informacaoInvestimento(
             @PathVariable long usuarioId,
             @PathVariable long tituloId
     ){
-
         return ResponseEntity.ok(
                 investimentoService.infoInvestimento(usuarioId, tituloId)
         );
-
     }
+    @PostMapping("/{usuarioId}/{tituloId}/sacar")
+    public ResponseEntity<InvestimentoTesouroDireto> sacarInvestimento(
+            @PathVariable long usuarioId,
+            @PathVariable long tituloId
+    ){
+        investimentoService.sacarInvestimento(usuarioId, tituloId);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }

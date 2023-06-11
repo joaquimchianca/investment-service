@@ -31,7 +31,14 @@ public class InvestimentoTesouroDiretoService {
         investimento.setSaldo(investimento.getSaldo().add(valorInvestido));
         return investimentoRepository.save(investimento);
     }
-    public InvestimentoTesouroDireto infoInvestimento(Long usuarioId, Long id) {
-        return investimentoRepository.findByUsuarioIdAndTituloId(usuarioId, id);
+    public InvestimentoTesouroDireto infoInvestimento(Long usuarioId, Long tituloId) {
+        return investimentoRepository.findByUsuarioIdAndTituloId(usuarioId, tituloId);
+    }
+
+    public void sacarInvestimento(Long usuarioId, Long tituloId){
+        InvestimentoTesouroDireto investimento = investimentoRepository.findByUsuarioIdAndTituloId(usuarioId, tituloId);
+        BigDecimal saldoAtual = investimento.getSaldo();
+        // ContaService.realizarTransferencia(...)
+        investimento.setSaldo(BigDecimal.ZERO);
     }
 }

@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://database:5432/vascob_investimentos
+    url: jdbc:postgresql://localhost:5432/vascob_investimentos
     username: postgres
     password: postgres
   jpa:
@@ -12,3 +12,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+
+springdoc:
+  swagger-ui:
+    path=/api/swagger.html
+
