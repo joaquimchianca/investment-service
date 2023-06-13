@@ -1,49 +1,47 @@
 package ufrn.imd.investmentservice.controllers;
 
 import java.math.BigDecimal;
-import jakarta.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ufrn.imd.investmentservice.models.Poupanca;
+import ufrn.imd.investmentservice.services.PoupancaService;
 
 @RestController
 @RequestMapping("/api/poupanca")
 public class PoupancaController {
-    @GetMapping("/{id}")
-    public Poupanca getPoupanca(){
-        // Pega do banco de dados...
-        Poupanca p = new Poupanca();
-        return p;
-    };
 
-    @PostMapping("/{id}")
-    @Transactional
-    public ResponseEntity<Poupanca> createPoupanca(
-        @RequestBody Poupanca input
-    ){
-        return ResponseEntity.ok(input);
-    };
+    private final PoupancaService poupancaService;
 
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/{id}/adicionar_montante")
-    @Transactional
-    public void adicionarMontante(
-        @PathVariable Long id,
-        @RequestBody BigDecimal quantia
-    ){
-        Poupanca p = new Poupanca();
-        p.setMontante(p.getMontante().add(quantia));
+    @Autowired
+    public PoupancaController(PoupancaService poupancaService) {
+        this.poupancaService = poupancaService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Poupanca> getPoupanca(@PathVariable Long id) {
+        return poupancaService.getPoupancaById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Poupanca> createPoupanca(@RequestBody Poupanca poupanca) {
+        Poupanca savedPoupanca = poupancaService.savePoupanca(poupanca);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPoupanca);
+    }
+
+    @PatchMapping("/{id}/adicionar_montante")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void adicionarMontante(@PathVariable Long id, @RequestBody BigDecimal quantia) {
+        poupancaService.adicionarMontante(id, quantia);
+    }
 
     @PatchMapping("/{id}/retirar")
-    @Transactional
-    public BigDecimal retirarMontante(
-        @PathVariable Long id
-    ){
-        Poupanca p = new Poupanca();
-        return p.getMontante();
+    public ResponseEntity<BigDecimal> retirarMontante(@PathVariable Long id) {
+        BigDecimal montanteRetirado = poupancaService.retirarMontante(id);
+        return ResponseEntity.ok(montanteRetirado);
     }
-
 }
