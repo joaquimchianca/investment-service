@@ -3,6 +3,8 @@ package ufrn.imd.investmentservice.controllers;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,12 @@ public class PoupancaController {
         return poupancaService.getPoupancaById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Poupanca>> getAllPoupanca(Pageable pageable) {
+        Page<Poupanca> poupancas = poupancaService.getAllPoupanca(pageable);
+        return ResponseEntity.ok(poupancas);
     }
 
     @PostMapping

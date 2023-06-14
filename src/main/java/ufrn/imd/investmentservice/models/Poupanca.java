@@ -23,7 +23,7 @@ public class Poupanca {
     private int taxaDeJuros;
     private BigDecimal montante;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "poupanca_id", referencedColumnName = "id")
     private List<ItemHistorico> historico;
 }
