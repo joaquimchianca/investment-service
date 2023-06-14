@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "investimento_tesouro_direto")
-public class InvestimentoTesouroDireto implements Investimento {
+public class InvestimentoTesouroDireto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long usuarioId;

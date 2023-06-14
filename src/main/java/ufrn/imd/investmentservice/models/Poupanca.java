@@ -16,7 +16,7 @@ import java.util.LinkedList;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "poupanca")
-public class Poupanca implements Investimento {
+public class Poupanca {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int taxaDeJuros;
@@ -26,11 +26,4 @@ public class Poupanca implements Investimento {
                 cascade = CascadeType.ALL,
                 orphanRemoval = true)
     private LinkedList<ItemHistorico> historico;
-
-    public void retirarMontante() {}
-
-    public BigDecimal obterSaldo() {
-        return this.getMontante();
-    };
-    public void devolverInvestimento() {};
 }
