@@ -2,12 +2,14 @@ package ufrn.imd.investmentservice.controllers;
 
 import java.math.BigDecimal;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ufrn.imd.investmentservice.dto.Aplicacao;
 import ufrn.imd.investmentservice.models.Poupanca;
 import ufrn.imd.investmentservice.services.PoupancaService;
 
@@ -41,16 +43,16 @@ public class PoupancaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPoupanca);
     }
 
-    @PatchMapping("/{id}/adicionar_montante")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void adicionarMontante(@PathVariable Long id, @RequestBody BigDecimal quantia) {
-        poupancaService.adicionarMontante(id, quantia);
+    @PatchMapping("/{id}/adicionar")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Poupanca> adicionarMontante(@PathVariable Long id, @RequestBody @Valid Aplicacao form) {
+        return ResponseEntity.ok(poupancaService.adicionarMontante(id, form));
     }
 
     @PatchMapping("/{id}/retirar")
-    public ResponseEntity<BigDecimal> retirarMontante(@PathVariable Long id) {
-        BigDecimal montanteRetirado = poupancaService.retirarMontante(id);
-        return ResponseEntity.ok(montanteRetirado);
+    public ResponseEntity<Poupanca> retirarMontante(@PathVariable Long id, @RequestBody @Valid Aplicacao form) {
+        Poupanca poupanca = poupancaService.retirarMontante(id, form);
+        return ResponseEntity.ok(poupanca);
     }
 
     @DeleteMapping("/{id}")

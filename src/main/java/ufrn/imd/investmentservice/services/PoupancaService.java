@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ufrn.imd.investmentservice.dto.Aplicacao;
 import ufrn.imd.investmentservice.models.Poupanca;
 import ufrn.imd.investmentservice.repositories.PoupancaRepository;
 
@@ -33,26 +34,27 @@ public class PoupancaService {
         return poupancaRepository.findAll(p);
     }
 
-    public void adicionarMontante(Long id, BigDecimal quantia) {
+    public Poupanca adicionarMontante(Long id, Aplicacao form) {
         Optional<Poupanca> optionalPoupanca = poupancaRepository.findById(id);
         if (optionalPoupanca.isPresent()) {
             Poupanca poupanca = optionalPoupanca.get();
-            BigDecimal novoMontante = poupanca.getMontante().add(quantia);
+            BigDecimal novoMontante = poupanca.getMontante().add(form.getValor());
             poupanca.setMontante(novoMontante);
             poupancaRepository.save(poupanca);
+            return poupanca;
         } else {
             throw new IllegalArgumentException("Poupanca not found with id: " + id);
         }
     }
 
-    public BigDecimal retirarMontante(Long id) {
+    public Poupanca retirarMontante(Long id, Aplicacao form) {
         Optional<Poupanca> optionalPoupanca = poupancaRepository.findById(id);
         if (optionalPoupanca.isPresent()) {
             Poupanca poupanca = optionalPoupanca.get();
-            BigDecimal montante = poupanca.getMontante();
-            poupanca.setMontante(BigDecimal.ZERO);
+            BigDecimal novoMontante = poupanca.getMontante().subtract(form.getValor());
+            poupanca.setMontante(novoMontante);
             poupancaRepository.save(poupanca);
-            return montante;
+            return poupanca;
         } else {
             throw new IllegalArgumentException("Poupanca not found with id: " + id);
         }
