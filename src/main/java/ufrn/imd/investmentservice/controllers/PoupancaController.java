@@ -52,4 +52,10 @@ public class PoupancaController {
         BigDecimal montanteRetirado = poupancaService.retirarMontante(id);
         return ResponseEntity.ok(montanteRetirado);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleta(@PathVariable Long id) {
+        poupancaService.deleta(id);
+    }
 }

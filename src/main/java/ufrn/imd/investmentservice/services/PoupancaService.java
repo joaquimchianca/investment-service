@@ -57,4 +57,8 @@ public class PoupancaService {
             throw new IllegalArgumentException("Poupanca not found with id: " + id);
         }
     }
+
+    public void deleta(Long id) {
+        poupancaRepository.deleteById(id);
+    }
 }
