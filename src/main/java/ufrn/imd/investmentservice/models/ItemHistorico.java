@@ -1,5 +1,6 @@
 package ufrn.imd.investmentservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,4 @@ public class ItemHistorico {
     private long id;
     private BigDecimal valor;
     private LocalDateTime dataAplicacao;
-    @ManyToOne
-    @JoinColumn(name = "poupanca_id")
-    private Poupanca poupanca;
 }

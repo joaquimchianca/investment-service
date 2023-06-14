@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 
 @Data
@@ -22,8 +23,7 @@ public class Poupanca {
     private int taxaDeJuros;
     private BigDecimal montante;
 
-    @OneToMany(mappedBy = "poupanca",
-                cascade = CascadeType.ALL,
-                orphanRemoval = true)
-    private LinkedList<ItemHistorico> historico;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "poupanca_id", referencedColumnName = "id")
+    private List<ItemHistorico> historico;
 }
