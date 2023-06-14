@@ -9,10 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-class Historico {
-    private LocalDate data;
-    private BigDecimal valorInserido;
-}
 
 @Data
 @Builder
@@ -25,7 +21,11 @@ public class Poupanca implements Investimento {
     private long id;
     private int taxaDeJuros;
     private BigDecimal montante;
-    private LinkedList<Historico> historico;
+
+    @OneToMany(mappedBy = "poupanca",
+                cascade = CascadeType.ALL,
+                orphanRemoval = true)
+    private LinkedList<ItemHistorico> historico;
 
     public void retirarMontante() {}
 
