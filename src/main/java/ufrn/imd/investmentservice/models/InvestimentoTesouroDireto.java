@@ -1,12 +1,16 @@
 package ufrn.imd.investmentservice.models;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Data
 @Builder
@@ -19,13 +23,16 @@ public class InvestimentoTesouroDireto {
     private long id;
     private long usuarioId;
     private BigDecimal saldo;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @ManyToOne
     @JoinColumn(name = "titulo_id")
     private TituloTesouroDireto titulo;
-
-    public BigDecimal obterSaldo() {
-        return this.getSaldo();
-    }
-
-    public void devolverInvestimento() {}
 }
