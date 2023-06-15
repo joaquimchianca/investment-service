@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ufrn.imd.investmentservice.dto.Aplicacao;
 import ufrn.imd.investmentservice.models.InvestimentoTesouroDireto;
 import ufrn.imd.investmentservice.models.TituloTesouroDireto;
 import ufrn.imd.investmentservice.services.InvestimentoTesouroDiretoService;
@@ -15,28 +16,25 @@ import ufrn.imd.investmentservice.services.TituloTesouroDiretoService;
 
 import java.math.BigDecimal;
 
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-class Input {
-    BigDecimal valorInvestido;
-}
 @RestController
 @RequestMapping("/api/tesouro_direto")
 public class TesouroDiretoController {
 
+    final InvestimentoTesouroDiretoService investimentoService;
+
     @Autowired
-    InvestimentoTesouroDiretoService investimentoService;
+    public TesouroDiretoController(InvestimentoTesouroDiretoService investimentoService) {
+        this.investimentoService = investimentoService;
+    }
 
 
     @PostMapping("{usuarioId}/{tituloId}")
     public  ResponseEntity<InvestimentoTesouroDireto> investir(
             @PathVariable Long usuarioId,
             @PathVariable Long tituloId,
-            @RequestBody Input valorInvestido
+            @RequestBody Aplicacao valorInvestido
             ) {
-        return ResponseEntity.ok(investimentoService.investir(usuarioId, tituloId, valorInvestido.valorInvestido));
+        return ResponseEntity.ok(investimentoService.investir(usuarioId, tituloId, valorInvestido.getValor()));
     };
     @GetMapping("/{usuarioId}/{tituloId}")
     public ResponseEntity<InvestimentoTesouroDireto> informacaoInvestimento(
@@ -55,7 +53,4 @@ public class TesouroDiretoController {
         investimentoService.sacarInvestimento(usuarioId, tituloId);
         return ResponseEntity.ok().build();
     }
-
-
-
 }
