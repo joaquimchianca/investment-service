@@ -1,6 +1,8 @@
 package ufrn.imd.investmentservice.services;
 
+import org.springdoc.core.converters.models.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ufrn.imd.investmentservice.models.InvestimentoTesouroDireto;
 import ufrn.imd.investmentservice.models.TituloTesouroDireto;
@@ -8,6 +10,9 @@ import ufrn.imd.investmentservice.repositories.InvestimentoTesouroDiretoReposito
 import ufrn.imd.investmentservice.repositories.TituloTesouroDiretoRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InvestimentoTesouroDiretoService {
@@ -40,5 +45,23 @@ public class InvestimentoTesouroDiretoService {
         BigDecimal saldoAtual = investimento.getSaldo();
         // ContaService.realizarTransferencia(...)
         investimento.setSaldo(BigDecimal.ZERO);
+    }
+    @Scheduled(cron="0 1 * * *")
+    public void rendimento(){
+        LocalDate start = LocalDate.ofEpochDay(System.currentTimeMillis() / (24 * 60 * 60 * 1000) ).withDayOfMonth(1);
+
+        LocalDate end = LocalDate.ofEpochDay(System.currentTimeMillis() / (24 * 60 * 60 * 1000) ).plusMonths(1).withDayOfMonth(1).minusDays(1);
+
+        List<InvestimentoTesouroDireto> investimentos = investimentoRepository.findByCreatedateGreaterThanAndCreatedateLessThan(start, end);
+
+        List<InvestimentoTesouroDireto> investimentosAtualizados = investimentos.stream().map(investimento -> {
+            BigDecimal juros = BigDecimal.valueOf(investimento.getTitulo().getTaxaDeJuros());
+            BigDecimal saldoAtual = investimento.getSaldo();
+            investimento.setSaldo(saldoAtual.add((saldoAtual.multiply((juros)))));
+            return investimento;
+        }).collect(Collectors.toList());
+
+        investimentoRepository.saveAll(investimentosAtualizados);
+
     }
 }
