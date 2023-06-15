@@ -2,6 +2,7 @@ package ufrn.imd.investmentservice.controllers;
 
 import java.math.BigDecimal;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,18 +39,21 @@ public class PoupancaController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Poupanca> createPoupanca(@RequestBody Poupanca poupanca) {
         Poupanca savedPoupanca = poupancaService.savePoupanca(poupanca);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPoupanca);
     }
 
     @PatchMapping("/{id}/adicionar")
+    @Transactional
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Poupanca> adicionarMontante(@PathVariable Long id, @RequestBody @Valid Aplicacao form) {
         return ResponseEntity.ok(poupancaService.adicionarMontante(id, form));
     }
 
     @PatchMapping("/{id}/retirar")
+    @Transactional
     public ResponseEntity<Poupanca> retirarMontante(@PathVariable Long id, @RequestBody @Valid Aplicacao form) {
         Poupanca poupanca = poupancaService.retirarMontante(id, form);
         return ResponseEntity.ok(poupanca);

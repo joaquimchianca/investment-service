@@ -20,7 +20,6 @@ import java.util.List;
 public class Poupanca {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int taxaDeJuros;
     private BigDecimal montante;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

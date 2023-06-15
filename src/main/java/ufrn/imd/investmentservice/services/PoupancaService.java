@@ -1,9 +1,11 @@
 package ufrn.imd.investmentservice.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ufrn.imd.investmentservice.dto.Aplicacao;
 import ufrn.imd.investmentservice.models.Poupanca;
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class PoupancaService {
 
     private final PoupancaRepository poupancaRepository;
+    private final long SEGUNDO = 1000;
 
     @Autowired
     public PoupancaService(PoupancaRepository poupancaRepository) {
@@ -62,5 +65,12 @@ public class PoupancaService {
 
     public void deleta(Long id) {
         poupancaRepository.deleteById(id);
+    }
+
+    @Scheduled(fixedDelay = 3*SEGUNDO)
+    @Transactional
+    public void rendimento() {
+        BigDecimal taxa = new BigDecimal("0.0072");
+        poupancaRepository.rendimento(taxa);
     }
 }
