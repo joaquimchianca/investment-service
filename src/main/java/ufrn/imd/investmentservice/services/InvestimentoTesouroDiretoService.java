@@ -46,13 +46,13 @@ public class InvestimentoTesouroDiretoService {
         // ContaService.realizarTransferencia(...)
         investimento.setSaldo(BigDecimal.ZERO);
     }
-    @Scheduled(cron="0 1 * * *")
+    @Scheduled(cron="0 1 * * * *")
     public void rendimento(){
         LocalDate start = LocalDate.ofEpochDay(System.currentTimeMillis() / (24 * 60 * 60 * 1000) ).withDayOfMonth(1);
 
         LocalDate end = LocalDate.ofEpochDay(System.currentTimeMillis() / (24 * 60 * 60 * 1000) ).plusMonths(1).withDayOfMonth(1).minusDays(1);
 
-        List<InvestimentoTesouroDireto> investimentos = investimentoRepository.findByCreatedateGreaterThanAndCreatedateLessThan(start, end);
+        List<InvestimentoTesouroDireto> investimentos = investimentoRepository.findByCreatedAtGreaterThanAndCreatedAtLessThan(start, end);
 
         List<InvestimentoTesouroDireto> investimentosAtualizados = investimentos.stream().map(investimento -> {
             BigDecimal juros = BigDecimal.valueOf(investimento.getTitulo().getTaxaDeJuros());

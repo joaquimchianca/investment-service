@@ -1,1 +1,0 @@
-ALTER TABLE poupanca DROP COLUMN taxa_de_juros;

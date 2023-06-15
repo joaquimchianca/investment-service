@@ -14,5 +14,5 @@ public interface InvestimentoTesouroDiretoRepository extends JpaRepository<Inves
     @Query(value = "SELECT * FROM investimento_tesouro_direto as i where i.titulo_id = :titulo_id and i.usuario_id = :user_id", nativeQuery = true)
     InvestimentoTesouroDireto findByUsuarioIdAndTituloId(@Param("user_id") Long usuarioId,@Param("titulo_id") Long tituloId);
 
-    List<InvestimentoTesouroDireto> findByCreatedateGreaterThanAndCreatedateLessThan(LocalDate start, LocalDate end);
+    List<InvestimentoTesouroDireto> findByCreatedAtGreaterThanAndCreatedAtLessThan(LocalDate start, LocalDate end);
 }
